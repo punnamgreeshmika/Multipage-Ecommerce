@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop – LUMIÈRE Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #faf6f1;
+      --blush: #e8c4b8;
+      --rose: #c17b6f;
+      --deep: #2b1f1c;
+      --gold: #b89a6a;
+      --warm: #f0e6d8;
+      --dark: #1a1210;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--deep); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(250,246,241,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,154,106,0.2);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300;
+      letter-spacing: 0.3em; color: var(--deep); text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--deep); text-decoration: none;
+      position: relative; padding-bottom: 2px; transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-icons { display: flex; gap: 1.2rem; align-items: center; }
+    .nav-icons button {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--deep); transition: color 0.3s;
+      position: relative;
+    }
+    .nav-icons button:hover { color: var(--gold); }
+    .cart-badge {
+      position: absolute; top: -6px; right: -8px;
+      background: var(--rose); color: white;
+      font-size: 0.55rem; width: 16px; height: 16px;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 10rem 5rem 4rem;
+      background: linear-gradient(180deg, var(--warm) 0%, var(--cream) 100%);
+      text-align: center;
+    }
+    .breadcrumb {
+      font-size: 0.72rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #aaa;
+      margin-bottom: 1rem;
+    }
+    .breadcrumb a { color: var(--gold); text-decoration: none; }
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; color: var(--deep); margin-bottom: 0.8rem;
+    }
+    .page-title em { font-style: italic; color: var(--rose); }
+    .page-subtitle {
+      font-size: 0.88rem; color: #888; font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    /* FILTER TABS */
+    .filter-bar {
+      position: sticky; top: 80px; z-index: 50;
+      background: var(--cream); border-bottom: 1px solid #e5ddd8;
+      padding: 1.2rem 5rem;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem;
+    }
+    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-tab {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid #ddd; background: none;
+      font-family: 'Jost', sans-serif; font-size: 0.72rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer; color: var(--deep);
+      transition: all 0.25s; border-radius: 0;
+    }
+    .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-tab.active {
+      background: var(--deep); color: var(--cream);
+      border-color: var(--deep);
+    }
+    .sort-select {
+      padding: 0.5rem 1rem; border: 1px solid #ddd;
+      font-family: 'Jost', sans-serif; font-size: 0.72rem;
+      letter-spacing: 0.1em; background: white;
+      color: var(--deep); cursor: pointer; outline: none;
+    }
+    .results-count {
+      font-size: 0.75rem; color: #999; white-space: nowrap;
+    }
+
+    /* SEARCH BAR */
+    .search-bar-wrap {
+      padding: 1.5rem 5rem 0;
+      display: flex; justify-content: center;
+    }
+    .search-bar {
+      display: flex; width: 100%; max-width: 500px;
+    }
+    .search-input {
+      flex: 1; padding: 0.8rem 1.2rem;
+      border: 1px solid #ddd; border-right: none;
+      font-family: 'Jost', sans-serif; font-size: 0.85rem;
+      background: white; outline: none;
+    }
+    .search-btn {
+      padding: 0.8rem 1.2rem;
+      background: var(--deep); border: none; cursor: pointer;
+      color: white; font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .search-btn:hover { background: var(--gold); }
+
+    /* PRODUCTS */
+    .shop-body { padding: 3rem 5rem 6rem; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2.5rem;
+    }
+    .product-card {
+      cursor: pointer; transition: transform 0.3s ease;
+      animation: fadeUp 0.5s ease forwards;
+      opacity: 0;
+    }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-img {
+      aspect-ratio: 3/4; position: relative;
+      overflow: hidden; margin-bottom: 1.2rem;
+      background: var(--warm);
+    }
+    .product-img-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-img-inner { transform: scale(1.1); }
+    .product-badge {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--rose); color: white;
+      font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.3rem 0.7rem;
+    }
+    .product-badge.gold { background: var(--gold); }
+    .product-badge.dark { background: var(--deep); }
+    .product-wishlist {
+      position: absolute; top: 1rem; right: 1rem;
+      background: white; border: none; cursor: pointer;
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: all 0.3s; opacity: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    .product-card:hover .product-wishlist { opacity: 1; }
+    .product-wishlist:hover { background: var(--rose); }
+    .product-quick-view {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(43,31,28,0.85); color: white;
+      text-align: center; padding: 0.8rem;
+      font-size: 0.68rem; letter-spacing: 0.18em;
+      text-transform: uppercase; transform: translateY(100%);
+      transition: transform 0.3s ease; border: none; cursor: pointer;
+      font-family: 'Jost', sans-serif; width: 100%;
+    }
+    .product-card:hover .product-quick-view { transform: translateY(0); }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.12rem; font-weight: 400;
+      color: var(--deep); margin-bottom: 0.25rem;
+    }
+    .product-brand { font-size: 0.68rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .product-shade { font-size: 0.72rem; color: #999; margin-bottom: 0.6rem; }
+    .product-price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; }
+    .product-price { font-size: 0.92rem; font-weight: 500; color: var(--deep); }
+    .product-price-old { font-size: 0.78rem; color: #bbb; text-decoration: line-through; margin-left: 0.4rem; }
+    .product-stars { font-size: 0.68rem; color: var(--gold); }
+    .product-reviews { font-size: 0.65rem; color: #aaa; margin-left: 4px; }
+    .add-to-cart-btn {
+      width: 100%; padding: 0.75rem;
+      background: transparent; border: 1px solid var(--deep);
+      font-family: 'Jost', sans-serif; font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      cursor: pointer; color: var(--deep);
+      transition: all 0.3s ease;
+    }
+    .add-to-cart-btn:hover { background: var(--deep); color: var(--cream); }
+    .color-dots { display: flex; gap: 6px; margin-bottom: 0.6rem; }
+    .color-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1); cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .color-dot:hover { transform: scale(1.3); }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center; padding: 5rem 2rem; grid-column: 1/-1;
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; color: var(--deep); margin-bottom: 0.5rem;
+    }
+    .empty-sub { font-size: 0.85rem; color: #aaa; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 300;
+      display: none; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--cream); max-width: 820px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      animation: fadeUp 0.3s ease;
+    }
+    .modal-img {
+      background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; min-height: 350px;
+    }
+    .modal-info { padding: 3rem; }
+    .modal-brand { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .modal-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; color: var(--deep);
+      margin-bottom: 0.5rem; line-height: 1.2;
+    }
+    .modal-stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 1rem; }
+    .modal-price {
+      font-size: 1.3rem; font-weight: 500; color: var(--deep);
+      margin-bottom: 1.5rem;
+    }
+    .modal-desc { font-size: 0.85rem; line-height: 1.8; color: #666; margin-bottom: 2rem; font-weight: 300; }
+    .modal-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--deep); margin-bottom: 0.8rem; font-weight: 500; }
+    .modal-shades { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .shade-btn {
+      padding: 0.3rem 0.8rem; border: 1px solid #ddd;
+      background: none; font-size: 0.72rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'Jost', sans-serif;
+    }
+    .shade-btn.selected, .shade-btn:hover {
+      border-color: var(--deep); background: var(--deep); color: white;
+    }
+    .modal-qty { display: flex; gap: 0; align-items: center; margin-bottom: 1.5rem; }
+    .modal-qty-btn {
+      width: 38px; height: 38px; border: 1px solid #ddd;
+      background: none; cursor: pointer; font-size: 1rem;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .modal-qty-btn:hover { background: var(--deep); color: white; border-color: var(--deep); }
+    .modal-qty-val { width: 50px; text-align: center; border: 1px solid #ddd; border-left: none; border-right: none; height: 38px; line-height: 38px; font-size: 0.9rem; }
+    .modal-add-btn {
+      width: 100%; padding: 1rem;
+      background: var(--deep); color: var(--cream);
+      border: none; font-family: 'Jost', sans-serif;
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; cursor: pointer; margin-bottom: 0.8rem;
+      transition: background 0.3s;
+    }
+    .modal-add-btn:hover { background: var(--gold); }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: white; border: none; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* CART SIDEBAR */
+    .cart-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 200; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-sidebar {
+      position: fixed; top: 0; right: -420px; width: 420px;
+      height: 100vh; background: var(--cream); z-index: 201;
+      padding: 2.5rem; display: flex; flex-direction: column;
+      transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -10px 0 60px rgba(0,0,0,0.15);
+    }
+    .cart-sidebar.open { right: 0; }
+    .cart-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 2rem;
+      padding-bottom: 1.5rem; border-bottom: 1px solid #e5ddd8;
+    }
+    .cart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 400; color: var(--deep);
+    }
+    .cart-close { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--deep); }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #ede6df; }
+    .cart-item-img { width: 70px; height: 90px; background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
+    .cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--deep); margin-bottom: 0.3rem; }
+    .cart-item-shade { font-size: 0.72rem; color: #999; margin-bottom: 0.5rem; }
+    .cart-item-price { font-size: 0.88rem; font-weight: 500; color: var(--deep); }
+    .cart-item-qty { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.6rem; }
+    .qty-btn { width: 24px; height: 24px; border: 1px solid #ddd; background: none; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .qty-btn:hover { background: var(--deep); color: white; border-color: var(--deep); }
+    .qty-val { font-size: 0.85rem; min-width: 20px; text-align: center; }
+    .cart-footer { padding-top: 1.5rem; border-top: 1px solid #e5ddd8; }
+    .cart-total-row { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+    .cart-total-label { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .cart-total-val { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; }
+    .cart-checkout { width: 100%; padding: 1.1rem; background: var(--deep); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
+    .cart-checkout:hover { background: var(--gold); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--deep); color: white; padding: 0.9rem 2rem; border-radius: 2px; font-size: 0.78rem; letter-spacing: 0.1em; z-index: 500; opacity: 0; transition: all 0.4s ease; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* FOOTER */
+    footer { background: var(--dark); padding: 3rem 5rem; color: rgba(255,255,255,0.5); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 0.72rem; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.72rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .page-header { padding: 8rem 2rem 3rem; }
+      .filter-bar { padding: 1rem 2rem; flex-wrap: wrap; }
+      .search-bar-wrap { padding: 1rem 2rem 0; }
+      .shop-body { padding: 2rem 2rem 4rem; }
+      .modal { grid-template-columns: 1fr; }
+      .modal-img { min-height: 220px; font-size: 4rem; }
+      footer { padding: 2rem; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .cart-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">LUMI<span>È</span>RE</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html" class="active">Shop</a></li>
+    <li><a href="products.html#skincare">Skincare</a></li>
+    <li><a href="products.html#makeup">Makeup</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button title="Search">🔍</button>
+    <button title="Wishlist">♡</button>
+    <button onclick="toggleCart()" title="Cart" style="position:relative">
+      🛍
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Home</a> / Shop</div>
+  <h1 class="page-title">Our <em>Collection</em></h1>
+  <p class="page-subtitle">Discover luxury beauty, clean formulas & ethical elegance</p>
+</div>
+
+<div class="search-bar-wrap">
+  <div class="search-bar">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()"/>
+    <button class="search-btn">🔍</button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-tab" onclick="setFilter('skincare', this)" id="tab-skincare">Skincare</button>
+    <button class="filter-tab" onclick="setFilter('makeup', this)" id="tab-makeup">Makeup</button>
+    <button class="filter-tab" onclick="setFilter('fragrance', this)" id="tab-fragrance">Fragrance</button>
+    <button class="filter-tab" onclick="setFilter('bodycare', this)" id="tab-bodycare">Body Care</button>
+    <button class="filter-tab" onclick="setFilter('haircare', this)" id="tab-haircare">Hair Care</button>
+  </div>
+  <div style="display:flex;gap:1rem;align-items:center">
+    <span class="results-count" id="resultsCount">24 products</span>
+    <select class="sort-select" onchange="sortProducts(this.value)">
+      <option value="default">Sort: Featured</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+      <option value="new">New Arrivals</option>
+    </select>
+  </div>
+</div>
+
+<div class="shop-body">
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <a href="index.html" class="nav-logo" style="font-size:1.4rem;text-decoration:none;color:rgba(255,255,255,0.6)">LUMI<span style="color:var(--gold)">È</span>RE</a>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Shop</a>
+      <a href="contact.html">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+    <span class="footer-copy">© 2025 Lumière Cosmetics</span>
+  </div>
+</footer>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-info">
+      <div class="modal-brand">Lumière Cosmetics</div>
+      <h2 class="modal-name" id="modalName"></h2>
+      <div class="modal-stars" id="modalStars"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-label">Select Shade</div>
+      <div class="modal-shades" id="modalShades"></div>
+      <div class="modal-label">Quantity</div>
+      <div class="modal-qty">
+        <button class="modal-qty-btn" onclick="changeModalQty(-1)">−</button>
+        <div class="modal-qty-val" id="modalQtyVal">1</div>
+        <button class="modal-qty-btn" onclick="changeModalQty(1)">+</button>
+      </div>
+      <button class="modal-add-btn" id="modalAddBtn">Add to Bag</button>
+    </div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <span class="cart-title">Your Bag</span>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">₹0</span>
+    </div>
+    <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const ALL_PRODUCTS = [
+    // Skincare
+    { id:1, name:'Rose Glow Serum', cat:'skincare', shade:'30ml', colors:['#f4a0a0','#e06060','#c03030'], price:1299, emoji:'🌹', badge:'Best Seller', rating:5, reviews:284, desc:'A luxurious rose-infused serum that deeply hydrates, evens skin tone, and delivers a visible glow. Packed with hyaluronic acid and vitamin C.', shades:['30ml','50ml'], new:false },
+    { id:2, name:'Hydra Cloud Cream', cat:'skincare', shade:'50ml', colors:['#b8d4e8','#8ab4cc'], price:1499, emoji:'☁️', badge:'', rating:4, reviews:156, desc:'Cloud-light moisturizer with ceramides and niacinamide for all-day plump, hydrated skin without any greasy feel.', shades:['50ml','100ml'], new:false },
+    { id:3, name:'Vitamin C Brightener', cat:'skincare', shade:'20ml', colors:['#f5e642','#d4c430'], price:1899, emoji:'🍋', badge:'', rating:5, reviews:98, desc:'20% stabilized vitamin C serum that fades dark spots, boosts radiance and protects against environmental stressors.', shades:['20ml','30ml'], new:true },
+    { id:4, name:'Retinol Night Repair', cat:'skincare', shade:'30ml', colors:['#c8b4e0','#a090c8'], price:2299, emoji:'🌙', badge:'New', rating:5, reviews:61, desc:'Gentle 0.5% retinol blend for overnight renewal. Reduces fine lines, refines pores and restores youthful luminosity while you sleep.', shades:['30ml'], new:true },
+    { id:5, name:'Peptide Eye Cream', cat:'skincare', shade:'15ml', colors:['#e8e0c8'], price:1099, emoji:'👁️', badge:'', rating:4, reviews:112, desc:'Firming peptide eye cream that targets puffiness, dark circles and crow\'s feet for a rested, lifted look.', shades:['15ml'], new:false },
+    { id:6, name:'Clay Detox Mask', cat:'skincare', shade:'75ml', colors:['#c8a080','#a07050'], price:899, emoji:'🏺', badge:'Sale', rating:4, reviews:203, desc:'Kaolin and bentonite clay mask purifies pores, controls excess sebum, and leaves skin clear and refreshed.', shades:['75ml'], new:false },
+    // Makeup
+    { id:7, name:'Velvet Matte Lip', cat:'makeup', shade:'Berry Red', colors:['#8b1a1a','#c0392b','#e74c3c','#ff9f9f'], price:799, emoji:'💄', badge:'New', rating:5, reviews:342, desc:'Ultra-pigmented matte liquid lip with a comfortable wear formula. Stays put for 12 hours without feathering.', shades:['Berry Red','Nude Beige','Dusty Rose','Classic Red'], new:true },
+    { id:8, name:'Radiance Foundation', cat:'makeup', shade:'Warm Beige', colors:['#f5cba7','#e8b487','#c8966a','#a0714a'], price:1699, emoji:'✨', badge:'', rating:4, reviews:187, desc:'Buildable medium-to-full coverage foundation with SPF 30 and a natural satin finish. 32 inclusive shades.', shades:['Porcelain','Warm Beige','Golden Tan','Deep Espresso'], new:false },
+    { id:9, name:'Gold Eye Palette', cat:'makeup', shade:'12 Shades', colors:['#d4af37','#c0976e','#8b6914','#4a3000'], price:2199, emoji:'👁', badge:'Sale', rating:5, reviews:421, desc:'12 richly pigmented eyeshadows from luminous champagnes to smoky bronzes. Highly blendable and long-lasting formula.', shades:['12 Shades'], new:false },
+    { id:10, name:'Lash Amplify Mascara', cat:'makeup', shade:'Black', colors:['#1a1a1a','#4a2040'], price:649, emoji:'🪄', badge:'Best Seller', rating:5, reviews:512, desc:'Volumizing, lengthening mascara with a unique brush that separates every lash for a dramatic flutter without clumping.', shades:['Black','Brown Black'], new:false },
+    { id:11, name:'Petal Blush', cat:'makeup', shade:'Nude Rose', colors:['#e8a0a0','#c87878','#d4a090'], price:899, emoji:'🌸', badge:'New', rating:4, reviews:134, desc:'Silky powder blush with micro-pearl shimmer. One sweep delivers a natural flush that lasts all day.', shades:['Nude Rose','Coral Dusk','Berry Blossom'], new:true },
+    { id:12, name:'Precision Liner', cat:'makeup', shade:'Black', colors:['#1a1a1a'], price:549, emoji:'🖊️', badge:'', rating:4, reviews:89, desc:'Waterproof felt-tip liner for precise, smudge-free lines. Ideal for both subtle and dramatic looks.', shades:['Black','Brown'], new:false },
+    // Fragrance
+    { id:13, name:'Rose Oud EDP', cat:'fragrance', shade:'50ml', colors:['#c17b6f','#a0506a','#804050'], price:3499, emoji:'🌹', badge:'Luxury', rating:5, reviews:98, desc:'An opulent blend of Bulgarian rose, warm oud and amber. A statement fragrance that lingers beautifully.', shades:['50ml','100ml'], new:false },
+    { id:14, name:'White Tea Mist', cat:'fragrance', shade:'100ml', colors:['#e0e8d8','#c8d8c0'], price:1299, emoji:'🍵', badge:'New', rating:4, reviews:45, desc:'Light and refreshing body mist with white tea, jasmine and soft musk. Perfect for everyday elegance.', shades:['100ml'], new:true },
+    { id:15, name:'Vanilla Noir Parfum', cat:'fragrance', shade:'30ml', colors:['#d4a06a','#8b6040'], price:2799, emoji:'🌑', badge:'', rating:5, reviews:132, desc:'Warm vanilla, dark chocolate and sandalwood combine for a rich, sensual evening fragrance.', shades:['30ml','50ml'], new:false },
+    // Body Care
+    { id:16, name:'Gold Body Oil', cat:'bodycare', shade:'100ml', colors:['#d4af37','#b89a6a'], price:1499, emoji:'✨', badge:'Best Seller', rating:5, reviews:267, desc:'24-karat gold-infused dry body oil that softens, illuminates and nourishes skin in one step.', shades:['100ml','200ml'], new:false },
+    { id:17, name:'Shea Butter Lotion', cat:'bodycare', shade:'250ml', colors:['#f0e6d8','#d4c4b0'], price:799, emoji:'🧴', badge:'', rating:4, reviews:189, desc:'Rich yet fast-absorbing shea butter lotion enriched with vitamin E and aloe vera for 24-hour moisture.', shades:['250ml','500ml'], new:false },
+    { id:18, name:'Exfoliating Sugar Scrub', cat:'bodycare', shade:'200g', colors:['#e8c4a0','#c89070'], price:649, emoji:'🍯', badge:'Sale', rating:4, reviews:145, desc:'Brown sugar and coconut oil scrub that gently buffs away dead skin for silky smooth results.', shades:['Rose','Coconut','Citrus'], new:false },
+    // Hair Care
+    { id:19, name:'Argan Repair Mask', cat:'haircare', shade:'200ml', colors:['#d4af37','#c09030'], price:1199, emoji:'💆', badge:'New', rating:4, reviews:78, desc:'Intensive argan oil hair mask that repairs damage, tames frizz and restores shine in one 10-minute treatment.', shades:['200ml','400ml'], new:true },
+    { id:20, name:'Scalp Elixir', cat:'haircare', shade:'60ml', colors:['#90c890','#60a860'], price:1599, emoji:'🌿', badge:'', rating:5, reviews:52, desc:'Nourishing scalp serum with peppermint, biotin and niacinamide to stimulate growth and balance the scalp.', shades:['60ml'], new:false },
+  ];
+
+  let currentFilter = 'all';
+  let currentSort = 'default';
+  let searchQuery = '';
+  let modalQty = 1;
+  let currentModalProduct = null;
+  let selectedShade = '';
+  let cart = JSON.parse(localStorage.getItem('lumiere_cart') || '[]');
+
+  // Check URL hash for filter
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#','');
+    if (hash && ['skincare','makeup','fragrance','bodycare','haircare'].includes(hash)) {
+      const tab = document.getElementById('tab-'+hash);
+      if (tab) setFilter(hash, tab);
+    } else {
+      renderProducts();
+    }
+    updateCartCount();
+  });
+
+  function setFilter(cat, btn) {
+    currentFilter = cat;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function sortProducts(val) {
+    currentSort = val;
+    renderProducts();
+  }
+
+  function filterProducts() {
+    searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    renderProducts();
+  }
+
+  function getFilteredProducts() {
+    let list = [...ALL_PRODUCTS];
+    if (currentFilter !== 'all') list = list.filter(p => p.cat === currentFilter);
+    if (searchQuery) list = list.filter(p => p.name.toLowerCase().includes(searchQuery) || p.shade.toLowerCase().includes(searchQuery));
+    switch(currentSort) {
+      case 'price-asc': list.sort((a,b) => a.price - b.price); break;
+      case 'price-desc': list.sort((a,b) => b.price - a.price); break;
+      case 'rating': list.sort((a,b) => b.rating - a.rating || b.reviews - a.reviews); break;
+      case 'new': list.sort((a,b) => b.new - a.new); break;
+    }
+    return list;
+  }
+
+  function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    const list = getFilteredProducts();
+    document.getElementById('resultsCount').textContent = `${list.length} product${list.length !== 1 ? 's' : ''}`;
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">No products found</div><div class="empty-sub">Try a different search or filter</div></div>`;
+      return;
+    }
+    grid.innerHTML = list.map((p, i) => `
+      <div class="product-card" style="animation-delay:${i * 0.06}s" onclick="openModal(${p.id})">
+        <div class="product-img">
+          <div class="product-img-inner">${p.emoji}</div>
+          ${p.badge ? `<span class="product-badge ${p.badge==='Luxury'?'gold':p.badge==='Best Seller'?'dark':''}">${p.badge}</span>` : ''}
+          <button class="product-wishlist" onclick="event.stopPropagation();showToast('Added to wishlist ♡')">♡</button>
+          <button class="product-quick-view" onclick="event.stopPropagation();openModal(${p.id})">Quick View</button>
+        </div>
+        <div class="product-brand">Lumière</div>
+        <div class="product-name">${p.name}</div>
+        <div class="color-dots">
+          ${p.colors.map(c => `<div class="color-dot" style="background:${c}" title="Color"></div>`).join('')}
+        </div>
+        <div class="product-shade">${p.shade}</div>
+        <div class="product-price-row">
+          <div>
+            <span class="product-price">₹${p.price.toLocaleString()}</span>
+            ${p.badge === 'Sale' ? `<span class="product-price-old">₹${Math.round(p.price*1.25).toLocaleString()}</span>` : ''}
+          </div>
+          <div>
+            <span class="product-stars">${'★'.repeat(p.rating)}</span>
+            <span class="product-reviews">(${p.reviews})</span>
+          </div>
+        </div>
+        <button class="add-to-cart-btn" onclick="event.stopPropagation();quickAddToCart(${p.id})">Add to Bag</button>
+      </div>
+    `).join('');
+  }
+
+  function openModal(id) {
+    const p = ALL_PRODUCTS.find(x => x.id === id);
+    currentModalProduct = p;
+    modalQty = 1;
+    selectedShade = p.shades[0];
+    document.getElementById('modalImg').textContent = p.emoji;
+    document.getElementById('modalName').textContent = p.name;
+    document.getElementById('modalStars').textContent = '★'.repeat(p.rating) + `  (${p.reviews} reviews)`;
+    document.getElementById('modalPrice').textContent = `₹${p.price.toLocaleString()}`;
+    document.getElementById('modalDesc').textContent = p.desc;
+    document.getElementById('modalQtyVal').textContent = 1;
+    document.getElementById('modalShades').innerHTML = p.shades.map(s =>
+      `<button class="shade-btn ${s === selectedShade ? 'selected' : ''}" onclick="selectShade('${s}', this)">${s}</button>`
+    ).join('');
+    document.getElementById('modalAddBtn').onclick = () => addToCartFromModal();
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function selectShade(shade, btn) {
+    selectedShade = shade;
+    document.querySelectorAll('.shade-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function changeModalQty(delta) {
+    modalQty = Math.max(1, modalQty + delta);
+    document.getElementById('modalQtyVal').textContent = modalQty;
+  }
+
+  function addToCartFromModal() {
+    if (!currentModalProduct) return;
+    for (let i = 0; i < modalQty; i++) addToCart(currentModalProduct.id, selectedShade);
+    closeModal();
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function quickAddToCart(id) {
+    const p = ALL_PRODUCTS.find(x => x.id === id);
+    addToCart(id, p.shades[0]);
+  }
+
+  function addToCart(id, shade) {
+    const product = ALL_PRODUCTS.find(p => p.id === id);
+    const key = `${id}-${shade}`;
+    const existing = cart.find(i => i.key === key);
+    if (existing) existing.qty++;
+    else cart.push({ ...product, key, shade, qty: 1 });
+    saveCart(); renderCart(); updateCartCount();
+    showToast(`${product.name} added to bag ✓`);
+  }
+
+  function saveCart() { localStorage.setItem('lumiere_cart', JSON.stringify(cart)); }
+  function updateCartCount() {
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    if (!cart.length) {
+      container.innerHTML = '<div style="text-align:center;padding:3rem;color:#aaa;font-size:0.85rem;">Your bag is empty</div>';
+      document.getElementById('cartTotal').textContent = '₹0';
+      return;
+    }
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div style="flex:1">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-shade">${item.shade}</div>
+          <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="changeQty('${item.key}',-1)">−</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${item.key}',1)">+</button>
+          </div>
+        </div>
+        <button onclick="removeItem('${item.key}')" style="background:none;border:none;cursor:pointer;font-size:1rem;color:#bbb;align-self:start;">✕</button>
+      </div>
+    `).join('');
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+  }
+
+  function changeQty(key, delta) {
+    const item = cart.find(i => i.key === key);
+    if (item) { item.qty += delta; if (item.qty <= 0) cart = cart.filter(i => i.key !== key); }
+    saveCart(); renderCart(); updateCartCount();
+  }
+
+  function removeItem(key) {
+    cart = cart.filter(i => i.key !== key);
+    saveCart(); renderCart(); updateCartCount();
+  }
+
+  function toggleCart() {
+    document.getElementById('cartSidebar').classList.toggle('open');
+    document.getElementById('cartOverlay').classList.toggle('open');
+    renderCart();
+  }
+
+  function checkout() {
+    if (!cart.length) { showToast('Your bag is empty!'); return; }
+    showToast('Order placed! Thank you 🎉');
+    cart = []; saveCart(); renderCart(); updateCartCount();
+    setTimeout(() => {
+      document.getElementById('cartSidebar').classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('open');
+    }, 1200);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>
