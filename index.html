@@ -1,20 +1,1067 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Cosmetics Store</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUMIÈRE – Luxury Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #faf6f1;
+      --blush: #e8c4b8;
+      --rose: #c17b6f;
+      --deep: #2b1f1c;
+      --gold: #b89a6a;
+      --warm: #f0e6d8;
+      --dark: #1a1210;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(250,246,241,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,154,106,0.2);
+      transition: all 0.3s ease;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--deep);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--deep); text-decoration: none;
+      position: relative; padding-bottom: 2px;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-icons { display: flex; gap: 1.2rem; align-items: center; }
+    .nav-icons button {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--deep); transition: color 0.3s;
+      position: relative;
+    }
+    .nav-icons button:hover { color: var(--gold); }
+    .cart-badge {
+      position: absolute; top: -6px; right: -8px;
+      background: var(--rose); color: white;
+      font-size: 0.55rem; width: 16px; height: 16px;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-family: 'Jost', sans-serif;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px; overflow: hidden;
+    }
+    .hero-left {
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 6rem 4rem 6rem 6rem;
+      animation: fadeInLeft 1.2s ease forwards;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.5rem; font-weight: 400;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--deep); margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--rose); }
+    .hero-desc {
+      font-size: 0.92rem; line-height: 1.9;
+      color: #6b5047; max-width: 380px;
+      margin-bottom: 3rem; font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--deep); color: var(--cream);
+      padding: 0.9rem 2.5rem; border: none; cursor: pointer;
+      font-family: 'Jost', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      text-decoration: none; display: inline-block;
+      transition: all 0.35s ease; position: relative; overflow: hidden;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold); transform: translateX(-100%);
+      transition: transform 0.35s ease;
+    }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary span { position: relative; z-index: 1; }
+    .btn-secondary {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--rose);
+      text-decoration: none; border-bottom: 1px solid var(--rose);
+      padding-bottom: 2px; transition: all 0.3s;
+    }
+    .btn-secondary:hover { color: var(--gold); border-color: var(--gold); }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+      animation: fadeInRight 1.2s ease forwards;
+    }
+    .hero-img-wrap {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #e8c4b8 0%, #d4a090 40%, #c17b6f 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-img-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.2) 0%, transparent 70%);
+    }
+    .hero-product-illustration {
+      width: 260px; height: 380px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 100%);
+      border-radius: 40% 60% 50% 50% / 40% 40% 60% 60%;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.5);
+      display: flex; align-items: center; justify-content: center;
+      animation: floatAnim 6s ease-in-out infinite;
+      box-shadow: 0 30px 80px rgba(43,31,28,0.25);
+      position: relative; z-index: 1;
+    }
+    .hero-product-illustration::after {
+      content: '✦'; font-size: 3rem; color: rgba(255,255,255,0.7);
+    }
+    .hero-float-tag {
+      position: absolute; background: white;
+      padding: 0.8rem 1.2rem; border-radius: 2px;
+      box-shadow: 0 8px 30px rgba(43,31,28,0.12);
+      font-size: 0.72rem; letter-spacing: 0.1em;
+    }
+    .hero-float-tag.tag1 { bottom: 25%; left: 8%; animation: floatTag 4s ease-in-out infinite; }
+    .hero-float-tag.tag2 { top: 25%; right: 5%; animation: floatTag 4s ease-in-out infinite 2s; }
+    .tag-label { color: #999; text-transform: uppercase; font-size: 0.62rem; display: block; margin-bottom: 2px; }
+    .tag-value { font-weight: 500; color: var(--deep); }
+    .hero-badge {
+      position: absolute; bottom: 8%; right: 10%;
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--deep); color: var(--gold);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; animation: rotateSlow 20s linear infinite;
+      font-size: 0.55rem; letter-spacing: 0.15em;
+      text-transform: uppercase; font-weight: 400;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: var(--deep); padding: 1rem 0;
+      overflow: hidden; white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-flex; animation: marquee 18s linear infinite;
+    }
+    .marquee-item {
+      font-size: 0.72rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      margin: 0 3rem;
+    }
+    .marquee-dot { color: var(--rose); margin: 0 0.5rem; }
+
+    /* SECTION TITLES */
+    .section-tag {
+      font-size: 0.68rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--gold);
+      display: block; margin-bottom: 1rem; font-weight: 400;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; line-height: 1.1; color: var(--deep);
+    }
+    .section-title em { font-style: italic; color: var(--rose); }
+
+    /* CATEGORIES */
+    .categories { padding: 6rem 5rem; }
+    .categories-header { text-align: center; margin-bottom: 4rem; }
+    .categories-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .cat-card {
+      position: relative; overflow: hidden; cursor: pointer;
+      aspect-ratio: 3/4;
+      transition: transform 0.4s ease;
+    }
+    .cat-card:hover { transform: translateY(-6px); }
+    .cat-card:first-child { grid-row: span 2; aspect-ratio: auto; }
+    .cat-bg {
+      width: 100%; height: 100%; min-height: 240px;
+      display: flex; align-items: flex-end; padding: 2rem;
+      transition: transform 0.6s ease;
+      position: relative;
+    }
+    .cat-card:hover .cat-bg { transform: scale(1.04); }
+    .cat-bg-1 { background: linear-gradient(160deg, #e8c4b8, #c17b6f); }
+    .cat-bg-2 { background: linear-gradient(160deg, #d4c5b0, #b89a6a); }
+    .cat-bg-3 { background: linear-gradient(160deg, #c5d0c8, #8fa896); }
+    .cat-bg-4 { background: linear-gradient(160deg, #d0c5d5, #9a85a0); }
+    .cat-bg-5 { background: linear-gradient(160deg, #d5c4c0, #a07870); }
+    .cat-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,18,16,0.7) 0%, transparent 60%);
+    }
+    .cat-info { position: relative; z-index: 1; color: white; }
+    .cat-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300;
+      letter-spacing: 0.05em; display: block;
+    }
+    .cat-count { font-size: 0.68rem; letter-spacing: 0.15em; opacity: 0.7; }
+    .cat-icon {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-size: 1.5rem; opacity: 0.5;
+    }
+
+    /* FEATURED */
+    .featured { padding: 2rem 5rem 6rem; }
+    .featured-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 3rem;
+    }
+    .products-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .product-card {
+      cursor: pointer; transition: transform 0.3s ease;
+    }
+    .product-card:hover { transform: translateY(-4px); }
+    .product-img {
+      aspect-ratio: 3/4; position: relative;
+      overflow: hidden; margin-bottom: 1.2rem;
+      background: var(--warm);
+    }
+    .product-img-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-img-inner { transform: scale(1.08); }
+    .product-badge {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--rose); color: white;
+      font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.3rem 0.7rem;
+    }
+    .product-wishlist {
+      position: absolute; top: 1rem; right: 1rem;
+      background: white; border: none; cursor: pointer;
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: all 0.3s; opacity: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    .product-card:hover .product-wishlist { opacity: 1; }
+    .product-wishlist:hover { background: var(--rose); }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 400;
+      color: var(--deep); margin-bottom: 0.3rem;
+    }
+    .product-shade { font-size: 0.72rem; color: #998; margin-bottom: 0.6rem; }
+    .product-price-row { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-size: 0.92rem; font-weight: 500; color: var(--deep); }
+    .product-price-old { font-size: 0.8rem; color: #bbb; text-decoration: line-through; margin-left: 0.5rem; }
+    .product-stars { font-size: 0.7rem; color: var(--gold); }
+    .add-to-cart-btn {
+      width: 100%; margin-top: 1rem; padding: 0.75rem;
+      background: transparent; border: 1px solid var(--deep);
+      font-family: 'Jost', sans-serif; font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      cursor: pointer; color: var(--deep);
+      transition: all 0.3s ease;
+    }
+    .add-to-cart-btn:hover {
+      background: var(--deep); color: var(--cream);
+    }
+
+    /* BANNER */
+    .banner {
+      margin: 0 5rem 6rem;
+      background: linear-gradient(135deg, var(--deep) 0%, #3d2820 100%);
+      padding: 5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: center; position: relative; overflow: hidden;
+    }
+    .banner::before {
+      content: '';
+      position: absolute; top: -50%; right: -10%;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,154,106,0.15);
+    }
+    .banner::after {
+      content: '';
+      position: absolute; bottom: -30%; right: 10%;
+      width: 250px; height: 250px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,154,106,0.1);
+    }
+    .banner-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1rem; display: block;
+    }
+    .banner-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300;
+      color: white; line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .banner-title em { font-style: italic; color: var(--blush); }
+    .banner-desc {
+      font-size: 0.88rem; color: rgba(255,255,255,0.6);
+      line-height: 1.9; margin-bottom: 2.5rem; font-weight: 300;
+    }
+    .banner-right {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .banner-visual {
+      width: 220px; height: 320px;
+      background: linear-gradient(160deg, rgba(232,196,184,0.3), rgba(193,123,111,0.5));
+      border-radius: 110px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      border: 1px solid rgba(232,196,184,0.2);
+      animation: floatAnim 5s ease-in-out infinite;
+    }
+    .banner-stat {
+      position: absolute; background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px); padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .banner-stat.s1 { bottom: -20px; left: -40px; }
+    .banner-stat.s2 { top: -20px; right: -40px; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; color: var(--gold);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.62rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      padding: 6rem 5rem; background: var(--warm);
+      text-align: center;
+    }
+    .testimonials-header { margin-bottom: 4rem; }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+    .testi-card {
+      background: white; padding: 2.5rem;
+      position: relative; text-align: left;
+      border-bottom: 2px solid var(--blush);
+      transition: transform 0.3s; cursor: default;
+    }
+    .testi-card:hover { transform: translateY(-4px); }
+    .testi-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem; color: var(--blush);
+      line-height: 1; position: absolute; top: 1rem; left: 2rem;
+    }
+    .testi-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; line-height: 1.7;
+      color: var(--deep); margin-top: 1.5rem; margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .testi-stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 1rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .testi-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--blush); display: flex;
+      align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .testi-name { font-size: 0.8rem; font-weight: 500; color: var(--deep); }
+    .testi-loc { font-size: 0.68rem; color: #aaa; }
+
+    /* NEWSLETTER */
+    .newsletter {
+      padding: 6rem 5rem; text-align: center;
+      background: var(--cream);
+    }
+    .newsletter-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300;
+      color: var(--deep); margin-bottom: 1rem;
+    }
+    .newsletter-desc {
+      font-size: 0.9rem; color: #888; margin-bottom: 2.5rem;
+      max-width: 500px; margin-left: auto; margin-right: auto;
+      line-height: 1.7; font-weight: 300;
+    }
+    .newsletter-form {
+      display: flex; max-width: 480px;
+      margin: 0 auto; gap: 0;
+    }
+    .newsletter-input {
+      flex: 1; padding: 1rem 1.5rem;
+      border: 1px solid #ddd; border-right: none;
+      font-family: 'Jost', sans-serif; font-size: 0.85rem;
+      background: white; outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-submit {
+      background: var(--deep); color: var(--cream);
+      border: none; padding: 1rem 2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.18em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .newsletter-submit:hover { background: var(--gold); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark); padding: 5rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 4rem;
+    }
+    .footer-brand .nav-logo { display: block; margin-bottom: 1.2rem; }
+    .footer-desc { font-size: 0.82rem; line-height: 1.8; font-weight: 300; max-width: 260px; }
+    .footer-socials { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      cursor: pointer; transition: all 0.3s; text-decoration: none;
+    }
+    .social-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 {
+      font-size: 0.7rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.5rem; font-weight: 400;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.7rem; }
+    .footer-col ul li a {
+      font-size: 0.82rem; color: rgba(255,255,255,0.5);
+      text-decoration: none; transition: color 0.3s;
+      font-weight: 300;
+    }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 0.72rem; }
+    .footer-pay { display: flex; gap: 0.8rem; }
+    .pay-badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.2rem 0.6rem; font-size: 0.65rem;
+      border-radius: 3px;
+    }
+
+    /* CART SIDEBAR */
+    .cart-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 200; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-sidebar {
+      position: fixed; top: 0; right: -420px; width: 420px;
+      height: 100vh; background: var(--cream); z-index: 201;
+      padding: 2.5rem; display: flex; flex-direction: column;
+      transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -10px 0 60px rgba(0,0,0,0.15);
+    }
+    .cart-sidebar.open { right: 0; }
+    .cart-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 2rem;
+      padding-bottom: 1.5rem; border-bottom: 1px solid #e5ddd8;
+    }
+    .cart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 400; color: var(--deep);
+    }
+    .cart-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; color: var(--deep);
+    }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-item {
+      display: flex; gap: 1rem; margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem; border-bottom: 1px solid #ede6df;
+    }
+    .cart-item-img {
+      width: 70px; height: 90px; background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; flex-shrink: 0;
+    }
+    .cart-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; color: var(--deep); margin-bottom: 0.3rem;
+    }
+    .cart-item-shade { font-size: 0.72rem; color: #999; margin-bottom: 0.5rem; }
+    .cart-item-price { font-size: 0.88rem; font-weight: 500; color: var(--deep); }
+    .cart-item-qty {
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-top: 0.6rem;
+    }
+    .qty-btn {
+      width: 24px; height: 24px; border: 1px solid #ddd;
+      background: none; cursor: pointer; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover { background: var(--deep); color: white; border-color: var(--deep); }
+    .qty-val { font-size: 0.85rem; min-width: 20px; text-align: center; }
+    .cart-footer { padding-top: 1.5rem; border-top: 1px solid #e5ddd8; }
+    .cart-total-row {
+      display: flex; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .cart-total-label { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .cart-total-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 400;
+    }
+    .cart-checkout {
+      width: 100%; padding: 1.1rem;
+      background: var(--deep); color: var(--cream);
+      border: none; font-family: 'Jost', sans-serif;
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .cart-checkout:hover { background: var(--gold); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--deep); color: white;
+      padding: 0.9rem 2rem; border-radius: 2px;
+      font-size: 0.78rem; letter-spacing: 0.1em;
+      z-index: 500; opacity: 0;
+      transition: all 0.4s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ANIMATIONS */
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes floatAnim {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+    @keyframes floatTag {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 1024px) {
+      nav { padding: 1.2rem 2rem; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-right { height: 50vh; }
+      .hero-left { padding: 5rem 2rem 3rem; }
+      .categories { padding: 4rem 2rem; }
+      .categories-grid { grid-template-columns: repeat(2,1fr); }
+      .cat-card:first-child { grid-row: auto; }
+      .featured { padding: 2rem 2rem 4rem; }
+      .products-grid { grid-template-columns: repeat(2,1fr); }
+      .banner { margin: 0 2rem 4rem; padding: 3rem; grid-template-columns: 1fr; }
+      .testimonials, .newsletter { padding: 4rem 2rem; }
+      .testi-grid { grid-template-columns: 1fr; }
+      footer { padding: 3rem 2rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .cart-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to Glow Cosmetics</h1>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="product.html">Products</a> |
-        <a href="contact.html">Contact</a>
-    </nav>
-    <h2>Featured Products</h2>
-    <ul>
-        <li>Lipstick - ₹499</li>
-        <li>Foundation - ₹899</li>
-        <li>Face Cream - ₹699</li>
-    </ul>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">LUMI<span>È</span>RE</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="products.html#skincare">Skincare</a></li>
+    <li><a href="products.html#makeup">Makeup</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button title="Search">🔍</button>
+    <button title="Wishlist">♡</button>
+    <button onclick="toggleCart()" title="Cart" style="position:relative">
+      🛍
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-eyebrow">✦ New Collection 2025</span>
+    <h1 class="hero-title">
+      Beauty that<br>
+      <em>transcends</em><br>
+      the ordinary
+    </h1>
+    <p class="hero-desc">
+      Crafted with rare botanicals and cutting-edge science, 
+      our formulas celebrate the ritual of self-care — luxurious, 
+      ethical, and transformative.
+    </p>
+    <div class="hero-btns">
+      <a href="products.html" class="btn-primary"><span>Explore Collection</span></a>
+      <a href="#featured" class="btn-secondary">Bestsellers ↓</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <div class="hero-product-illustration"></div>
+      <div class="hero-float-tag tag1">
+        <span class="tag-label">Best Seller</span>
+        <span class="tag-value">Rose Serum</span>
+      </div>
+      <div class="hero-float-tag tag2">
+        <span class="tag-label">Rating</span>
+        <span class="tag-value">★ 4.9 / 5</span>
+      </div>
+      <div class="hero-badge">
+        <span>✦ VEGAN</span>
+        <span>CRUELTY</span>
+        <span>FREE ✦</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="marquee-item">Luminous Skin</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Cruelty Free</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Vegan Formula</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Dermatologist Tested</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Sustainable Packaging</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Clean Beauty</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Luminous Skin</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Cruelty Free</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Vegan Formula</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Dermatologist Tested</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Sustainable Packaging</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Clean Beauty</span><span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="categories-header">
+    <span class="section-tag">✦ Curated For You</span>
+    <h2 class="section-title">Shop by <em>Category</em></h2>
+  </div>
+  <div class="categories-grid">
+    <a href="products.html#skincare" class="cat-card" style="text-decoration:none">
+      <div class="cat-bg cat-bg-1">
+        <div class="cat-overlay"></div>
+        <div class="cat-icon">🌿</div>
+        <div class="cat-info">
+          <span class="cat-name">Skincare</span>
+          <span class="cat-count">42 Products</span>
+        </div>
+      </div>
+    </a>
+    <a href="products.html#makeup" class="cat-card" style="text-decoration:none">
+      <div class="cat-bg cat-bg-2">
+        <div class="cat-overlay"></div>
+        <div class="cat-icon">💄</div>
+        <div class="cat-info">
+          <span class="cat-name">Makeup</span>
+          <span class="cat-count">68 Products</span>
+        </div>
+      </div>
+    </a>
+    <a href="products.html#fragrance" class="cat-card" style="text-decoration:none">
+      <div class="cat-bg cat-bg-3">
+        <div class="cat-overlay"></div>
+        <div class="cat-icon">🌸</div>
+        <div class="cat-info">
+          <span class="cat-name">Fragrance</span>
+          <span class="cat-count">24 Products</span>
+        </div>
+      </div>
+    </a>
+    <a href="products.html#bodycare" class="cat-card" style="text-decoration:none">
+      <div class="cat-bg cat-bg-4">
+        <div class="cat-overlay"></div>
+        <div class="cat-icon">🛁</div>
+        <div class="cat-info">
+          <span class="cat-name">Body Care</span>
+          <span class="cat-count">35 Products</span>
+        </div>
+      </div>
+    </a>
+    <a href="products.html#haircare" class="cat-card" style="text-decoration:none">
+      <div class="cat-bg cat-bg-5">
+        <div class="cat-overlay"></div>
+        <div class="cat-icon">💫</div>
+        <div class="cat-info">
+          <span class="cat-name">Hair Care</span>
+          <span class="cat-count">19 Products</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="featured" id="featured">
+  <div class="featured-header">
+    <div>
+      <span class="section-tag">✦ Most Loved</span>
+      <h2 class="section-title">Bestselling <em>Favorites</em></h2>
+    </div>
+    <a href="products.html" class="btn-secondary">View All Products →</a>
+  </div>
+  <div class="products-grid" id="featuredGrid"></div>
+</section>
+
+<!-- BANNER -->
+<section class="banner">
+  <div>
+    <span class="banner-eyebrow">✦ Limited Offer – Ends Sunday</span>
+    <h2 class="banner-title">Radiance<br><em>Awaits</em> You</h2>
+    <p class="banner-desc">
+      Unlock 20% off your first order and discover 
+      the ritual that thousands swear by. Free shipping 
+      on orders above ₹1,999.
+    </p>
+    <a href="products.html" class="btn-primary"><span>Shop Now — 20% Off</span></a>
+  </div>
+  <div class="banner-right">
+    <div class="banner-visual">
+      ✨
+      <div class="banner-stat s1">
+        <span class="stat-number">50K+</span>
+        <span class="stat-label">Happy Customers</span>
+      </div>
+      <div class="banner-stat s2">
+        <span class="stat-number">★ 4.9</span>
+        <span class="stat-label">Average Rating</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header">
+    <span class="section-tag">✦ Real Reviews</span>
+    <h2 class="section-title">What Our Customers <em>Say</em></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">The Rose Glow Serum completely transformed my skin in just two weeks. I've never received so many compliments.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div>
+          <div class="testi-name">Priya Sharma</div>
+          <div class="testi-loc">Mumbai, India</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Finally a luxury brand that's 100% vegan and doesn't compromise on results. The velvet matte lipstick is stunning.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩‍🦱</div>
+        <div>
+          <div class="testi-name">Ananya Reddy</div>
+          <div class="testi-loc">Hyderabad, India</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">The packaging is beautiful and the products even better. My skin has never felt more hydrated or looked more radiant.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">🧕</div>
+        <div>
+          <div class="testi-name">Fatima Khan</div>
+          <div class="testi-loc">Delhi, India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <h2 class="newsletter-title">Join the Lumière Family</h2>
+  <p class="newsletter-desc">Subscribe for exclusive offers, beauty tips, and early access to new launches. No spam — ever.</p>
+  <div class="newsletter-form">
+    <input class="newsletter-input" type="email" placeholder="Enter your email address" id="newsEmail"/>
+    <button class="newsletter-submit" onclick="subscribeNews()">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">LUMI<span>È</span>RE</a>
+      <p class="footer-desc">Luxury cosmetics rooted in clean beauty philosophy. Every product is vegan, cruelty-free, and crafted for luminous results.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">in</a>
+        <a class="social-btn" href="#">📸</a>
+        <a class="social-btn" href="#">📌</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="products.html">All Products</a></li>
+        <li><a href="products.html#skincare">Skincare</a></li>
+        <li><a href="products.html#makeup">Makeup</a></li>
+        <li><a href="products.html#fragrance">Fragrance</a></li>
+        <li><a href="products.html#bodycare">Body Care</a></li>
+        <li><a href="products.html#haircare">Hair Care</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Ingredients</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Shipping & Returns</a></li>
+        <li><a href="#">Track Your Order</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Lumière Cosmetics. All rights reserved.</span>
+    <div class="footer-pay">
+      <span class="pay-badge">VISA</span>
+      <span class="pay-badge">Mastercard</span>
+      <span class="pay-badge">UPI</span>
+      <span class="pay-badge">PayTM</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <span class="cart-title">Your Bag</span>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">₹0</span>
+    </div>
+    <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // CART STATE
+  let cart = JSON.parse(localStorage.getItem('lumiere_cart') || '[]');
+
+  const products = [
+    { id:1, name:'Rose Glow Serum', shade:'30ml', price:1299, emoji:'🌹', badge:'Best Seller', rating:5 },
+    { id:2, name:'Velvet Matte Lip', shade:'Berry Red', price:799, emoji:'💄', badge:'New', rating:5 },
+    { id:3, name:'Radiance Foundation', shade:'Warm Beige', price:1699, emoji:'✨', badge:'', rating:4 },
+    { id:4, name:'Gold Eye Palette', shade:'12 Shades', price:2199, emoji:'👁', badge:'Sale', rating:5 },
+    { id:5, name:'Hydra Cloud Cream', shade:'50ml', price:1499, emoji:'☁️', badge:'', rating:4 },
+    { id:6, name:'Lash Amplify Mascara', shade:'Black', price:649, emoji:'🪄', badge:'Best Seller', rating:5 },
+    { id:7, name:'Petal Blush', shade:'Nude Rose', price:899, emoji:'🌸', badge:'New', rating:4 },
+    { id:8, name:'Vitamin C Brightener', shade:'20ml', price:1899, emoji:'🍋', badge:'', rating:5 }
+  ];
+
+  function renderFeatured() {
+    const grid = document.getElementById('featuredGrid');
+    grid.innerHTML = products.map(p => `
+      <div class="product-card" onclick="window.location.href='products.html'">
+        <div class="product-img">
+          <div class="product-img-inner">${p.emoji}</div>
+          ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+          <button class="product-wishlist" onclick="event.stopPropagation();showToast('Added to wishlist ♡')">♡</button>
+        </div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-shade">${p.shade}</div>
+        <div class="product-price-row">
+          <div>
+            <span class="product-price">₹${p.price.toLocaleString()}</span>
+            ${p.badge === 'Sale' ? `<span class="product-price-old">₹${Math.round(p.price*1.2).toLocaleString()}</span>` : ''}
+          </div>
+          <div class="product-stars">${'★'.repeat(p.rating)}</div>
+        </div>
+        <button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart(${p.id})">Add to Bag</button>
+      </div>
+    `).join('');
+  }
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty++;
+    else cart.push({ ...product, qty: 1 });
+    saveCart();
+    renderCart();
+    updateCartCount();
+    showToast(`${product.name} added to bag ✓`);
+  }
+
+  function saveCart() {
+    localStorage.setItem('lumiere_cart', JSON.stringify(cart));
+  }
+
+  function updateCartCount() {
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    if (!cart.length) {
+      container.innerHTML = '<div style="text-align:center;padding:3rem;color:#aaa;font-size:0.85rem;">Your bag is empty</div>';
+      document.getElementById('cartTotal').textContent = '₹0';
+      return;
+    }
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div style="flex:1">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-shade">${item.shade}</div>
+          <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          </div>
+        </div>
+        <button onclick="removeItem(${item.id})" style="background:none;border:none;cursor:pointer;font-size:1rem;color:#bbb;align-self:start;">✕</button>
+      </div>
+    `).join('');
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+  }
+
+  function changeQty(id, delta) {
+    const item = cart.find(i => i.id === id);
+    if (item) {
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+    }
+    saveCart(); renderCart(); updateCartCount();
+  }
+
+  function removeItem(id) {
+    cart = cart.filter(i => i.id !== id);
+    saveCart(); renderCart(); updateCartCount();
+  }
+
+  function toggleCart() {
+    document.getElementById('cartSidebar').classList.toggle('open');
+    document.getElementById('cartOverlay').classList.toggle('open');
+    renderCart();
+  }
+
+  function checkout() {
+    if (!cart.length) { showToast('Your bag is empty!'); return; }
+    showToast('Order placed! Thank you 🎉');
+    cart = []; saveCart(); renderCart(); updateCartCount();
+    setTimeout(() => { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }, 1200);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  function subscribeNews() {
+    const email = document.getElementById('newsEmail').value;
+    if (!email || !email.includes('@')) { showToast('Please enter a valid email'); return; }
+    showToast('Welcome to Lumière! Check your inbox ✓');
+    document.getElementById('newsEmail').value = '';
+  }
+
+  renderFeatured();
+  updateCartCount();
+</script>
 </body>
 </html>
