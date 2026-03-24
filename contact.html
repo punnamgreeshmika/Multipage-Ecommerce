@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – LUMIÈRE Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #faf6f1;
+      --blush: #e8c4b8;
+      --rose: #c17b6f;
+      --deep: #2b1f1c;
+      --gold: #b89a6a;
+      --warm: #f0e6d8;
+      --dark: #1a1210;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--deep); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(250,246,241,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,154,106,0.2);
+    }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.3em; color: var(--deep); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--deep); text-decoration: none; position: relative; padding-bottom: 2px; transition: color 0.3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s ease; }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-icons { display: flex; gap: 1.2rem; align-items: center; }
+    .nav-icons button { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--deep); transition: color 0.3s; position: relative; }
+    .nav-icons button:hover { color: var(--gold); }
+    .cart-badge { position: absolute; top: -6px; right: -8px; background: var(--rose); color: white; font-size: 0.55rem; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 10rem 5rem 5rem;
+      background: linear-gradient(135deg, var(--dark) 0%, #3d2820 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; top: -100px; left: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      border: 1px solid rgba(184,154,106,0.08);
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: -80px; right: -80px;
+      width: 350px; height: 350px; border-radius: 50%;
+      border: 1px solid rgba(184,154,106,0.06);
+    }
+    .page-eyebrow { font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; display: block; }
+    .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 300; color: white; margin-bottom: 1rem; line-height: 1.1; }
+    .page-title em { font-style: italic; color: var(--blush); }
+    .page-subtitle { font-size: 0.9rem; color: rgba(255,255,255,0.5); font-weight: 300; max-width: 480px; margin: 0 auto; line-height: 1.8; }
+
+    /* INFO CARDS */
+    .info-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      margin: 0 5rem; margin-top: -40px;
+      position: relative; z-index: 10;
+      gap: 1.5rem;
+    }
+    .info-card {
+      background: white;
+      padding: 2.5rem;
+      box-shadow: 0 15px 50px rgba(43,31,28,0.08);
+      border-bottom: 2px solid var(--blush);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .info-card:hover { transform: translateY(-4px); box-shadow: 0 25px 60px rgba(43,31,28,0.12); }
+    .info-icon { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
+    .info-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; font-weight: 400; }
+    .info-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--deep); margin-bottom: 0.5rem; }
+    .info-detail { font-size: 0.82rem; color: #888; line-height: 1.7; font-weight: 300; }
+    .info-detail a { color: var(--rose); text-decoration: none; }
+    .info-detail a:hover { color: var(--gold); }
+
+    /* MAIN CONTACT */
+    .contact-main {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      padding: 7rem 5rem 6rem;
+    }
+    .contact-left {}
+    .section-eyebrow { font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; font-weight: 400; }
+    .contact-title { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--deep); line-height: 1.15; margin-bottom: 1.5rem; }
+    .contact-title em { font-style: italic; color: var(--rose); }
+    .contact-desc { font-size: 0.88rem; line-height: 1.9; color: #777; margin-bottom: 3rem; font-weight: 300; max-width: 420px; }
+
+    .hours-block { margin-bottom: 3rem; }
+    .hours-title { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--deep); margin-bottom: 1rem; font-weight: 500; }
+    .hours-row { display: flex; justify-content: space-between; padding: 0.7rem 0; border-bottom: 1px solid #ede6df; font-size: 0.82rem; }
+    .hours-day { font-weight: 400; color: var(--deep); }
+    .hours-time { color: #888; }
+    .hours-closed { color: var(--rose); font-size: 0.75rem; letter-spacing: 0.1em; }
+
+    .social-block {}
+    .social-title { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--deep); margin-bottom: 1rem; font-weight: 500; }
+    .social-links { display: flex; gap: 1rem; }
+    .social-btn { width: 44px; height: 44px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--deep); font-size: 1rem; transition: all 0.3s; }
+    .social-btn:hover { background: var(--deep); color: white; border-color: var(--deep); }
+
+    /* FORM */
+    .contact-form-wrap {
+      background: white;
+      padding: 3.5rem;
+      box-shadow: 0 10px 50px rgba(43,31,28,0.06);
+    }
+    .form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; color: var(--deep); margin-bottom: 0.5rem; }
+    .form-subtitle { font-size: 0.8rem; color: #aaa; margin-bottom: 2.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--deep); margin-bottom: 0.5rem; display: block; font-weight: 500; }
+    .form-input, .form-textarea, .form-select {
+      width: 100%; padding: 0.9rem 1.1rem;
+      border: 1px solid #e5ddd8; background: var(--cream);
+      font-family: 'Jost', sans-serif; font-size: 0.85rem;
+      color: var(--deep); outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      appearance: none;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,154,106,0.1);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: #ccc; }
+    .form-textarea { resize: vertical; min-height: 140px; }
+    .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b89a6a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer; }
+    .form-checkbox-row { display: flex; gap: 0.8rem; align-items: flex-start; margin-bottom: 2rem; }
+    .form-checkbox { width: 16px; height: 16px; accent-color: var(--gold); margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+    .form-checkbox-label { font-size: 0.78rem; color: #888; line-height: 1.6; }
+    .form-checkbox-label a { color: var(--rose); text-decoration: none; }
+    .form-submit {
+      width: 100%; padding: 1.1rem;
+      background: var(--deep); color: var(--cream);
+      border: none; font-family: 'Jost', sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.3s; position: relative; overflow: hidden;
+    }
+    .form-submit::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold); transform: translateX(-100%);
+      transition: transform 0.35s ease;
+    }
+    .form-submit:hover::before { transform: translateX(0); }
+    .form-submit span { position: relative; z-index: 1; }
+    .form-success {
+      display: none; text-align: center; padding: 2rem;
+    }
+    .form-success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .form-success-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--deep); margin-bottom: 0.5rem; }
+    .form-success-text { font-size: 0.85rem; color: #888; }
+
+    /* FAQ */
+    .faq-section {
+      padding: 5rem 5rem 7rem;
+      background: var(--warm);
+    }
+    .faq-header { text-align: center; margin-bottom: 4rem; }
+    .faq-title { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--deep); margin-bottom: 0.5rem; }
+    .faq-title em { font-style: italic; color: var(--rose); }
+    .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #e5ddd8; max-width: 960px; margin: 0 auto; }
+    .faq-item { background: white; padding: 0; border: none; }
+    .faq-question {
+      width: 100%; text-align: left; padding: 1.5rem 2rem;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Jost', sans-serif; font-size: 0.85rem;
+      font-weight: 500; color: var(--deep);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; transition: color 0.3s;
+    }
+    .faq-question:hover { color: var(--gold); }
+    .faq-arrow { font-size: 1rem; transition: transform 0.3s; flex-shrink: 0; color: var(--gold); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      font-size: 0.82rem; color: #777; line-height: 1.8;
+      font-weight: 300;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 2rem 1.5rem; }
+
+    /* MAP SECTION */
+    .map-section { padding: 0 5rem 5rem; }
+    .map-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--deep); margin-bottom: 1.5rem; text-align: center; }
+    .map-wrap {
+      width: 100%; height: 380px;
+      background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      border: 1px solid #e5ddd8;
+    }
+    .map-placeholder {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .map-placeholder .map-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .map-placeholder h3 { font-size: 1.5rem; font-weight: 300; color: var(--deep); margin-bottom: 0.3rem; }
+    .map-placeholder p { font-size: 0.82rem; color: #aaa; }
+    .map-grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(184,154,106,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,154,106,0.08) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .map-pin {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .pin-dot { width: 16px; height: 16px; background: var(--rose); border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(193,123,111,0.5); }
+    .pin-line { width: 2px; height: 20px; background: var(--rose); margin: 0 auto; }
+    .pin-shadow { width: 12px; height: 4px; background: rgba(0,0,0,0.15); border-radius: 50%; margin: 0 auto; }
+    .map-address-overlay {
+      position: absolute; bottom: 1.5rem; left: 1.5rem;
+      background: white; padding: 1.2rem 1.5rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    .map-addr-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--deep); margin-bottom: 0.3rem; }
+    .map-addr-text { font-size: 0.75rem; color: #aaa; }
+
+    /* CART SIDEBAR */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-sidebar { position: fixed; top: 0; right: -420px; width: 420px; height: 100vh; background: var(--cream); z-index: 201; padding: 2.5rem; display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: -10px 0 60px rgba(0,0,0,0.15); }
+    .cart-sidebar.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5ddd8; }
+    .cart-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--deep); }
+    .cart-close { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--deep); }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-footer { padding-top: 1.5rem; border-top: 1px solid #e5ddd8; }
+    .cart-total-row { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+    .cart-total-label { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .cart-total-val { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; }
+    .cart-checkout { width: 100%; padding: 1.1rem; background: var(--deep); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
+    .cart-checkout:hover { background: var(--gold); }
+
+    /* FOOTER */
+    footer { background: var(--dark); padding: 3rem 5rem; color: rgba(255,255,255,0.5); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 0.72rem; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.72rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--deep); color: white; padding: 0.9rem 2rem; border-radius: 2px; font-size: 0.78rem; letter-spacing: 0.1em; z-index: 500; opacity: 0; transition: all 0.4s ease; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @keyframes bounce {
+      0%,100% { transform: translate(-50%, -60%); }
+      50% { transform: translate(-50%, -70%); }
+    }
+
+    @media (max-width: 1024px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .page-header { padding: 8rem 2rem 4rem; }
+      .info-strip { grid-template-columns: 1fr; margin: 0 2rem; margin-top: -30px; }
+      .contact-main { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      .faq-section { padding: 4rem 2rem; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .map-section { padding: 0 2rem 4rem; }
+      footer { padding: 2rem; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+      .cart-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">LUMI<span>È</span>RE</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="products.html#skincare">Skincare</a></li>
+    <li><a href="products.html#makeup">Makeup</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button title="Search">🔍</button>
+    <button title="Wishlist">♡</button>
+    <button onclick="toggleCart()" title="Cart" style="position:relative">
+      🛍
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <span class="page-eyebrow">✦ We'd Love to Hear from You</span>
+  <h1 class="page-title">Get in <em>Touch</em></h1>
+  <p class="page-subtitle">Our beauty experts are here to help. Reach out for product recommendations, orders, or just to say hello.</p>
+</div>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-card">
+    <span class="info-icon">📍</span>
+    <div class="info-label">Visit Us</div>
+    <div class="info-title">Our Studio</div>
+    <div class="info-detail">42 Rose Garden Lane<br>Banjara Hills, Hyderabad<br>Telangana 500034</div>
+  </div>
+  <div class="info-card">
+    <span class="info-icon">✉️</span>
+    <div class="info-label">Email Us</div>
+    <div class="info-title">Support & Orders</div>
+    <div class="info-detail">
+      <a href="mailto:hello@lumiere.in">hello@lumiere.in</a><br>
+      <a href="mailto:orders@lumiere.in">orders@lumiere.in</a><br>
+      Response within 24 hours
+    </div>
+  </div>
+  <div class="info-card">
+    <span class="info-icon">📞</span>
+    <div class="info-label">Call Us</div>
+    <div class="info-title">Beauty Helpline</div>
+    <div class="info-detail">
+      <a href="tel:+918008001234">+91 800 800 1234</a><br>
+      Mon–Sat: 9am – 7pm IST<br>
+      <span style="color:var(--rose);font-size:0.72rem;">Sunday: Closed</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MAIN -->
+<section class="contact-main">
+  <div class="contact-left">
+    <span class="section-eyebrow">✦ Connect With Us</span>
+    <h2 class="contact-title">Let's Start a<br><em>Conversation</em></h2>
+    <p class="contact-desc">
+      Whether you have a question about our ingredients, need help choosing the perfect shade, or want to know about your order — we're here for you every step of the way.
+    </p>
+
+    <div class="hours-block">
+      <div class="hours-title">Business Hours</div>
+      <div class="hours-row"><span class="hours-day">Monday – Wednesday</span><span class="hours-time">9:00 AM – 7:00 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Thursday – Friday</span><span class="hours-time">9:00 AM – 8:00 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">10:00 AM – 6:00 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-closed">Closed</span></div>
+    </div>
+
+    <div class="social-block">
+      <div class="social-title">Follow Our Journey</div>
+      <div class="social-links">
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="Twitter">𝕏</a>
+        <a class="social-btn" href="#" title="Pinterest">📌</a>
+        <a class="social-btn" href="#" title="LinkedIn">in</a>
+        <a class="social-btn" href="#" title="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT FORM -->
+  <div class="contact-form-wrap">
+    <div id="contactFormContainer">
+      <div class="form-title">Send a Message</div>
+      <div class="form-subtitle">All fields marked * are required</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name *</label>
+          <input class="form-input" type="text" id="fname" placeholder="Priya" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name *</label>
+          <input class="form-input" type="text" id="lname" placeholder="Sharma" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address *</label>
+        <input class="form-input" type="email" id="email" placeholder="priya@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" id="phone" placeholder="+91 98765 43210" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Subject *</label>
+        <select class="form-select" id="subject">
+          <option value="">Select a topic...</option>
+          <option value="order">Order Inquiry</option>
+          <option value="product">Product Question</option>
+          <option value="returns">Returns & Refunds</option>
+          <option value="wholesale">Wholesale / B2B</option>
+          <option value="collab">Collaboration / PR</option>
+          <option value="feedback">Feedback</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Order Number (if applicable)</label>
+        <input class="form-input" type="text" id="orderNo" placeholder="LMR-2025-XXXXX" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Message *</label>
+        <textarea class="form-textarea" id="message" placeholder="Tell us how we can help you today..."></textarea>
+      </div>
+
+      <div class="form-checkbox-row">
+        <input class="form-checkbox" type="checkbox" id="newsletter" />
+        <label class="form-checkbox-label" for="newsletter">
+          I'd like to receive beauty tips, exclusive offers and product updates from Lumière. You can unsubscribe at any time. <a href="#">Privacy Policy</a>.
+        </label>
+      </div>
+
+      <button class="form-submit" onclick="submitForm()">
+        <span>Send Message ✦</span>
+      </button>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon">✉️</div>
+      <div class="form-success-title">Message Received!</div>
+      <p class="form-success-text">Thank you for reaching out. Our beauty team will get back to you within 24 hours.</p>
+      <br>
+      <button onclick="resetForm()" style="background:none;border:1px solid var(--gold);color:var(--gold);padding:0.7rem 2rem;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;margin-top:1rem;transition:all 0.3s">
+        Send Another Message
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <h2 class="map-title">Find Our Studio</h2>
+  <div class="map-wrap">
+    <div class="map-grid-lines"></div>
+    <div class="map-pin">
+      <div class="pin-dot"></div>
+      <div class="pin-line"></div>
+      <div class="pin-shadow"></div>
+    </div>
+    <div class="map-address-overlay">
+      <div class="map-addr-name">Lumière Studio</div>
+      <div class="map-addr-text">42 Rose Garden Lane, Banjara Hills, Hyderabad</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-header">
+    <span class="section-eyebrow">✦ Common Questions</span>
+    <h2 class="faq-title">Frequently <em>Asked</em></h2>
+  </div>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do you offer free shipping?
+        <span class="faq-arrow">↓</span>
+      </button>
+      <div class="faq-answer">Yes! We offer free standard shipping on all orders above ₹1,999 across India. Express delivery is available for an additional fee and typically delivers within 2–3 business days.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Are your products really vegan?
+        <span class="faq-arrow">↓</span>
+      </button>
+      <div class="faq-answer">Absolutely. Every single Lumière product is 100% vegan and cruelty-free. We never test on animals and are certified by PETA. Our formulas are free from all animal-derived ingredients.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What is your return policy?
+        <span class="faq-arrow">↓</span>
+      </button>
+      <div class="faq-answer">We offer a 30-day hassle-free return policy. If you're not completely satisfied, contact us and we'll arrange a pickup. Refunds are processed within 5–7 business days.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I get samples before buying?
+        <span class="faq-arrow">↓</span>
+      </button>
+      <div class="faq-answer">Yes! We offer discovery kits and trial sizes for most of our bestselling products. Visit our studio in Hyderabad or request samples when placing your first order.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Are your products suitable for sensitive skin?
+        <span class="faq-arrow">↓</span>
+      </button>
+      <div class="faq-answer">Most of our skincare range is formulated for all skin types including sensitive. Products are dermatologist-tested and free from parabens, sulfates, and synthetic fragrances. Always patch-test first.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do you have a loyalty program?
+        <span class="faq-arrow">↓</span>
+      </button>
+      <div class="faq-answer">Yes! Our Lumière Loyalty Club rewards you with points on every purchase. Points can be redeemed for discounts, free products, and exclusive early access to new collections.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <span class="cart-title">Your Bag</span>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div style="text-align:center;padding:3rem;color:#aaa;font-size:0.85rem;">Your bag is empty</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">₹0</span>
+    </div>
+    <button class="cart-checkout" onclick="window.location.href='products.html'">Continue Shopping</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <a href="index.html" class="nav-logo" style="font-size:1.4rem;text-decoration:none;color:rgba(255,255,255,0.6)">LUMI<span style="color:var(--gold)">È</span>RE</a>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Shop</a>
+      <a href="contact.html">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+    <span class="footer-copy">© 2025 Lumière Cosmetics</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function submitForm() {
+    const fname = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value.trim();
+
+    if (!fname) { showToast('Please enter your first name'); return; }
+    if (!email || !email.includes('@')) { showToast('Please enter a valid email'); return; }
+    if (!subject) { showToast('Please select a subject'); return; }
+    if (!message || message.length < 10) { showToast('Please enter a message (min 10 characters)'); return; }
+
+    document.getElementById('contactFormContainer').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('fname').value = '';
+    document.getElementById('lname').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('subject').value = '';
+    document.getElementById('orderNo').value = '';
+    document.getElementById('message').value = '';
+    document.getElementById('newsletter').checked = false;
+    document.getElementById('formSuccess').style.display = 'none';
+    document.getElementById('contactFormContainer').style.display = 'block';
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function toggleCart() {
+    document.getElementById('cartSidebar').classList.toggle('open');
+    document.getElementById('cartOverlay').classList.toggle('open');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // Load cart count from localStorage
+  const cart = JSON.parse(localStorage.getItem('lumiere_cart') || '[]');
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+</script>
+</body>
+</html>
